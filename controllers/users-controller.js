@@ -20,12 +20,15 @@ const getUsers = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
+  console.log('~~~~~~~~~~~~~~~SignUP is HAPPENING~~~~~~~~~~~~~~~~~~~')
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new HttpError("Invalid Input passed during sign Up.", 422));
   }
 
   const { name, email, password } = req.body;
+  console.log(req.body)
+  console.log(req.header)
 
   let existingUser;
   try {

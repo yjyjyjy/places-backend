@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const PRIVATE_KEY = process.env.AUTH_PRIVATE_KEY; // this is the private key. Never share with any client. This is dumb string tho.
 
 const getUsers = async (req, res, next) => {
+  console.log('~~~~~~~~~~~~~~~GET users is HAPPENING~~~~~~~~~~~~~~~~~~~')
   let users;
   try {
     users = await User.find({}, "-password");

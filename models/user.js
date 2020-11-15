@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   // unique create an index
   // but it does NOT guarantee the uniqueness of the field.
   password: { type: String, required: true, minlength: 6 },
-  image: { type: String, required: true },
+  image: { type: String, required: false },
   // use [] to indicateone to many mapping 
   places: [{ type: mongoose.Types.ObjectId, required: true, ref: "Place" }], 
 });

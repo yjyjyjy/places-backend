@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 const PRIVATE_KEY = process.env.AUTH_PRIVATE_KEY; // this is the private key. Never share with any client. This is dumb string tho.
 
 const getUsers = async (req, res, next) => {
-  console.log("~~~~~~~~~~~~~~~GET users is HAPPENING~~~~~~~~~~~~~~~~~~~");
   let users;
   try {
     users = await User.find({}, "-password");
@@ -22,15 +21,20 @@ const getUsers = async (req, res, next) => {
 
 const signup = async (req, res, next) => {
   console.log("~~~~~~~~~~~~~~~SignUP is HAPPENING~~~~~~~~~~~~~~~~~~~");
+  console.log(req)
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new HttpError("Invalid Input passed during sign Up.", 422));
   }
 
   const { name, email, password } = req.body;
-  console.log("req.body" + req.body);
-  console.log("req.header" + req.header);
-  console.log("req.file: " + req.file);
+  try {
+    console.log("req.body" + req.body);
+    console.log("req.header" + req.header);
+    console.log("req.file: " + req.file);
+  } catch (err) {
+    console.error(err);
+  }
 
   let existingUser;
   try {
@@ -61,7 +65,7 @@ const signup = async (req, res, next) => {
       name,
       email,
       password: hashedPassword,
-      image: req.file.path || null,
+      // image: req.file.path || null,
       places: [], // start with empty array.
     });
   } catch (err) {

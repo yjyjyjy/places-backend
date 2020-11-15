@@ -29,10 +29,11 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   // log requests
-  console.warn('~~~~~~~~~~~~~~~~~~~~~~BODY here~~~~~~~~~~~~~~~~~~~~~')
+  console.warn("~~~~~~~~~~~~~~~~~~~~~~BODY here~~~~~~~~~~~~~~~~~~~~~");
   console.log(req.body);
-  console.warn('~~~~~~~~~~~~~~~~~~~~~~HEADER here~~~~~~~~~~~~~~~~~~~~~')
+  console.warn("~~~~~~~~~~~~~~~~~~~~~~HEADER here~~~~~~~~~~~~~~~~~~~~~");
   console.log(req.header);
+  next();
 });
 
 app.use("/api/places", placesRoutes);

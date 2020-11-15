@@ -27,6 +27,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  // log requests
+  console.warn('~~~~~~~~~~~~~~~~~~~~~~BODY here~~~~~~~~~~~~~~~~~~~~~')
+  console.log(req.body);
+  console.warn('~~~~~~~~~~~~~~~~~~~~~~HEADER here~~~~~~~~~~~~~~~~~~~~~')
+  console.log(req.header);
+});
+
 app.use("/api/places", placesRoutes);
 
 app.use("/api/users", usersRoutes);

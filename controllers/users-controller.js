@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const PRIVATE_KEY = process.env.AUTH_PRIVATE_KEY; // this is the private key. Never share with any client. This is dumb string tho.
 
 const getUsers = async (req, res, next) => {
-  console.log('~~~~~~~~~~~~~~~GET users is HAPPENING~~~~~~~~~~~~~~~~~~~')
+  console.log("~~~~~~~~~~~~~~~GET users is HAPPENING~~~~~~~~~~~~~~~~~~~");
   let users;
   try {
     users = await User.find({}, "-password");
@@ -21,15 +21,16 @@ const getUsers = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
-  console.log('~~~~~~~~~~~~~~~SignUP is HAPPENING~~~~~~~~~~~~~~~~~~~')
+  console.log("~~~~~~~~~~~~~~~SignUP is HAPPENING~~~~~~~~~~~~~~~~~~~");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new HttpError("Invalid Input passed during sign Up.", 422));
   }
 
   const { name, email, password } = req.body;
-  console.log(req.body)
-  console.log(req.header)
+  console.log("req.body" + req.body);
+  console.log("req.header" + req.header);
+  console.log("req.file: " + req.file);
 
   let existingUser;
   try {
@@ -54,18 +55,23 @@ const signup = async (req, res, next) => {
     return next(new HttpError("cannot hash passowrd", 500));
   }
 
-  const createdUser = new User({
-    name,
-    email,
-    password: hashedPassword,
-    image: req.file.path,
-    places: [], // start with empty array.
-  });
+  let createdUser;
+  try {
+    createdUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      image: req.file.path || null,
+      places: [], // start with empty array.
+    });
+  } catch (err) {
+    return next(new HttpError(`Can't create user >> ${err}`, 500));
+  }
 
   try {
     await createdUser.save();
   } catch (err) {
-    return next(new HttpError(`Can't save user ${err}`, 500));
+    return next(new HttpError(`Can't save user >> ${err}`, 500));
   }
 
   let token;

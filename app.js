@@ -11,7 +11,7 @@ const app = express();
 
 app.use(bodyParser.json()); // json is stored at req.body property.
 
-app.use("/uploads/images", express.static(path.join("uploads", "images")));
+// app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 // add headers to overcome CORS browser check.
 app.use((req, res, next) => {
